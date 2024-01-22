@@ -1,0 +1,66 @@
+name: create-or-update-release-note
+description: Automates the creation or update of a Reno release note
+inputs:
+  note-name:
+    description: Name of the release note, not the full path but just the name without hash suffix and .yml file extension
+    required: true
+  note-content:
+    description: Content of the release note
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Reno
+      run: pip install reno
+      shell: bash
+
+    - run: |
+        # Determine the branch name
+        BRANCH_NAME=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}        
+
+        # Set Git user configuration
+        # TODO: update these to use user specified values
+        git config --global user.email "release-note-bot@github.com"
+        git config --global user.name "Release note bot"
+
+        NOTE_NAME="${{ inputs.note-name }}"
+        if [[ $NOTE_NAME == releasenotes/notes/* ]]; then
+          echo "Updating existing note."
+          FILENAME=$NOTE_NAME
+        else
+          echo "Creating new note."
+          reno new "${{ inputs.note-name }}" # Use the input directly here
+          FILENAME=$(ls releasenotes/notes/${{ inputs.note-name }}-*.yaml)
+          echo "Note created: $FILENAME"
+        fi
+
+        # Debugging: Confirm file exists and check permissions
+        if [ -f "$FILENAME" ]; then
+          echo "File to write to: $FILENAME"
+          ls -l "$FILENAME"
+        else
+          echo "Error: File not found - $FILENAME"
+          exit 1
+        fi
+
+        # Use printf to safely handle the content. This works well for basic special character handling.
+        printf '%s\n' "${{ inputs.note-content }}" > "$FILENAME"
+
+        # Confirm file write operation succeeded
+        if [ $? -eq 0 ]; then
+          echo "Content successfully written to $FILENAME"
+        else
+          echo "Error writing content to $FILENAME"
+          exit 1
+        fi
+
+        git add $FILENAME
+        git commit -m "Release note update"
+        git push
+
+      shell: bash
