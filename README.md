@@ -46,4 +46,3 @@ Contributions to the `create-or-update-release-note` action are welcome. Feel fr
 
 ## License
 This project is licensed under [MIT](LICENSE).
-```

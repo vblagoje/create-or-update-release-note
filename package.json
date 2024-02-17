@@ -1,0 +1,19 @@
+{
+  "name": "create-or-update-release-note",
+  "version": "1.0.0",
+  "description": "GitHub Action to create or update a Reno release note for a pull request",
+  "main": "create-or-update-release-note.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build create-or-update-release-note.js -o dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.1"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.1"
+  }
+}
