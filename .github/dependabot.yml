@@ -1,0 +1,7 @@
+version: 2
+updates:
+  # Enable updates for npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package.json and package-lock.json
+    schedule:
+      interval: "monthly" # Change to "daily", "weekly", or "monthly" as needed
