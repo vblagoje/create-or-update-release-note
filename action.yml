@@ -1,5 +1,8 @@
 name: create-or-update-release-note
 description: Automates the creation or update of a Reno release note
+branding:
+  icon: edit-2
+  color: blue
 inputs:
   note-name:
     description: Name of the release note, not the full path but just the name without hash suffix and .yml file extension
