@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 const core = require('@actions/core');
+const axios = require('axios');
 
 try {
   const noteName = process.env.NOTE_NAME;
