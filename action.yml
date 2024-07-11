@@ -28,4 +28,8 @@ runs:
       env:
         NOTE_NAME: ${{ inputs.note-name }}
         NOTE_CONTENT: ${{ inputs.note-content }}
+        GITHUB_HEAD_REF: ${{ github.head_ref }}
+        GITHUB_BASE_REF: ${{ github.base_ref }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_TOKEN: ${{ github.token }}
       shell: bash
