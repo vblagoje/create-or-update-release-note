@@ -24,8 +24,9 @@ try {
   });
 
   const files = response.data.files;
-  const noteAlreadyExists = files.some(file => file.filename.startsWith('releasenotes/notes/') && file.filename.endsWith('.yaml'));
+  const noteAlreadyExists = files.some(file => file.filename.includes('releasenotes/notes') && file.filename.endsWith('.yaml'));
 
+  console.log(`Note already exists: ${noteAlreadyExists}`);
   if (noteAlreadyExists) {
     console.log("Existing note detected. Skipping further actions.");
     return; // Exit the script without performing any further actions
